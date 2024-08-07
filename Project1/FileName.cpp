@@ -4,36 +4,36 @@
 #include <conio.h>
 #include <windows.h>
 #include <chrono>
-#include <iomanip> // Для форматирования вывода
+#include <iomanip> 
 
 using namespace std;
 using namespace std::chrono;
 
-// Устанавливает цвет текста в консоли
+
 void SetColor(int color) {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 
-// Функция для вывода текста с раскрашиванием введенных символов
+
 void PrintWithColor(const string& text, int matchedLength) {
-    system("CLS"); // Очищает экран консоли
+    system("CLS"); 
     for (size_t i = 0; i < text.length(); ++i) {
         if (i < matchedLength) {
-            SetColor(10); // Салатовый цвет (светло-зеленый)
+            SetColor(10); 
         }
         else {
-            SetColor(15); // Белый цвет
+            SetColor(15); 
         }
         cout << text[i];
     }
-    SetColor(15); // Восстановить белый цвет
+    SetColor(15); 
     cout << endl;
 }
 
 int main() {
     string input;
 
-    // Цикл для запроса текста, пока не будет введено что-либо
+   
     do {
         cout << "Enter text: ";
         getline(cin, input);
@@ -50,28 +50,28 @@ int main() {
     auto start = high_resolution_clock::time_point();
     bool started = false;
 
-    // Изначально выводим пустую строку с исходным текстом
+    
     PrintWithColor(input, matchedLength);
 
     while (matchedLength < input.length()) {
-        if (_kbhit()) { // Проверяет, была ли нажата клавиша
-            char ch = _getch(); // Считывает символ с клавиатуры
+        if (_kbhit()) { 
+            char ch = _getch(); 
             if (!started) {
-                start = high_resolution_clock::now(); // Захватывает время начала ввода первого символа
+                start = high_resolution_clock::now(); 
                 started = true;
             }
             if (ch == input[matchedLength]) {
-                matchedLength++; // Увеличивает счетчик совпавших символов
+                matchedLength++; 
             }
             PrintWithColor(input, matchedLength); 
         }
     }
 
-    auto end = high_resolution_clock::now(); // Захватывает время окончания ввода последнего символа
-    duration<double> diff = end - start; // Рассчитывает продолжительность ввода в секундах
+    auto end = high_resolution_clock::now(); 
+    duration<double> diff = end - start; 
 
     cout << "Completed" << endl;
-    cout << fixed << setprecision(2) << "Time taken: " << diff.count() << "s." << endl; // Вывод времени с двумя знаками после запятой
+    cout << fixed << setprecision(2) << "Time taken: " << diff.count() << "s." << endl; 
 
     system("pause");
     return 0;
